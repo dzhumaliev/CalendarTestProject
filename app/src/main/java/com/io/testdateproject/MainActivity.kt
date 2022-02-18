@@ -1,5 +1,7 @@
 package com.io.testdateproject
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button_test).setOnClickListener {
 
             val dialog = CustomDatePickerDialog(this)
+
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
             dialog.show()
         }
     }

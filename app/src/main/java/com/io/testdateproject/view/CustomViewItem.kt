@@ -29,8 +29,8 @@ class CustomViewItem @JvmOverloads constructor(
 
     private val _paintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         isAntiAlias = true
-        typeface = ResourcesCompat.getFont(context, R.font.montserrat_medium)
-        color = Color.BLACK
+        typeface = ResourcesCompat.getFont(context, R.font.montserrat_semibold)
+        color = ContextCompat.getColor(context, R.color.black_434343)
         textSize = 24f
         textAlign = Paint.Align.CENTER
 

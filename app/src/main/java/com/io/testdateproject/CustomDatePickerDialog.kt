@@ -23,6 +23,7 @@ class CustomDatePickerDialog @JvmOverloads constructor(
         super.onCreate(savedInstanceState)
 
         binding = LayoutCustomDialogBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         val monthName = DateUtils.formatDateTime(

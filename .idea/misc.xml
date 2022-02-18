@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/shape_rounded_btn.xml" value="0.27291666666666664" />
+        <entry key="app/src/main/res/drawable/shape_rounded_btn_yellow.xml" value="0.27291666666666664" />
         <entry key="app/src/main/res/font/font.xml" value="0.18425925925925926" />
         <entry key="app/src/main/res/layout/layout_custom_dialog.xml" value="0.125" />
       </map>

@@ -92,8 +92,6 @@ class CustomViewItem @JvmOverloads constructor(
 
         for (i in 1..cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 
-            //sdf
-
             cal.set(Calendar.DAY_OF_MONTH, i)
             when (cal.get(Calendar.DAY_OF_WEEK)) {
                 Calendar.MONDAY -> {
@@ -103,6 +101,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxis = yAxes[yStep],
                             i,
                             isWeekend = false,
+                            dayOfWeek = "Montag",
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -115,6 +114,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxis = yAxes[yStep],
                             i,
                             isWeekend = false,
+                            dayOfWeek = "Dienstag",
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -127,6 +127,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxis = yAxes[yStep],
                             i,
                             isWeekend = false,
+                            dayOfWeek = "Mittwoch",
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -138,7 +139,8 @@ class CustomViewItem @JvmOverloads constructor(
                             xAxis = xAxes[3],
                             yAxis = yAxes[yStep],
                             i,
-                            false,
+                            isWeekend = false,
+                            dayOfWeek = "Donnerstag",
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -151,6 +153,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxis = yAxes[yStep],
                             i,
                             isWeekend = false,
+                            dayOfWeek = "Freitag",
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -163,6 +166,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxis = yAxes[yStep],
                             i,
                             isWeekend = true,
+                            dayOfWeek = "Samstag",
                             clicked = false,
                             myPaint = _paintWdText
                         )
@@ -175,6 +179,7 @@ class CustomViewItem @JvmOverloads constructor(
                             yAxes[yStep],
                             i,
                             isWeekend = true,
+                            dayOfWeek = "Sonntag",
                             clicked = false,
                             myPaint = _paintWdText
                         )
@@ -234,7 +239,8 @@ class CustomViewItem @JvmOverloads constructor(
 
                                 it.clicked = true
 
-                                changeEvent(cal.time, it.number)
+
+                                changeEvent(cal.time, it.dayOfWeek, it.number)
                                 invalidate()
 
                             }
@@ -262,7 +268,7 @@ class CustomViewItem @JvmOverloads constructor(
         this.mEventListener = mEventListener
     }
 
-    private fun changeEvent(cal: Date, number: Int) {
-        mEventListener?.onEventOccurred(cal, number)
+    private fun changeEvent(cal: Date, dayOfWeek: String, number: Int) {
+        mEventListener?.onEventOccurred(cal, dayOfWeek, number)
     }
 }

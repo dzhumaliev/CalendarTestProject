@@ -10,7 +10,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
     ViewPager(context, attrs), IOnClick {
 
     var onCalendarChangeListener: ((Calendar) -> Unit)? = null
-    var onTestClick: ((Date, Int) -> Any)? = null
+    var onTestClick: ((Date, String, Int) -> Any)? = null
 
     override fun setAdapter(adapter: PagerAdapter?) {
         super.setAdapter(adapter)
@@ -41,7 +41,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    override fun onClick(cal: Date, number: Int) {
-        onTestClick?.invoke(cal, number)
+    override fun onClick(cal: Date,dayOfWeek: String, number: Int) {
+        onTestClick?.invoke(cal, dayOfWeek, number)
     }
 }

@@ -1,5 +1,6 @@
 package com.io.testdateproject
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
@@ -38,13 +39,9 @@ class CustomDatePickerDialog @JvmOverloads constructor(
             onCalendarChangeListener = {
                 setDateHeader(it)
             }
-//            onTestClick = {
-//                setTimeText(it)
-//            }
 
-
-            onTestClick = { cal: Date, day: Int ->
-                setTimeText(cal, day)
+            onTestClick = { cal: Date, dayOfWeek: String, day: Int ->
+                setTimeText(cal, dayOfWeek, day)
             }
 
 
@@ -72,10 +69,9 @@ class CustomDatePickerDialog @JvmOverloads constructor(
         return SimpleDateFormat(format, Locale.GERMAN).format(dateStr)
     }
 
-    private fun setTimeText(cal: Date, day: Int) {
+    @SuppressLint("SetTextI18n")
+    private fun setTimeText(cal: Date, dayOfWeek: String, day: Int) {
         binding.tvMonthYear.text = SimpleDateFormat("MMMM yyyy", Locale.GERMAN).format(cal)
-//        binding.tvWeekDay.text = SimpleDateFormat("EEEE, ", Locale.GERMAN).format(cal) + day
-
-
+        binding.tvWeekDay.text = "$dayOfWeek, $day"
     }
 }

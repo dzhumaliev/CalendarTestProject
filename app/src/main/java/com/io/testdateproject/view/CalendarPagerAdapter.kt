@@ -61,8 +61,8 @@ open class CalendarPagerAdapter(
         }
     }
 
-    override fun onEventOccurred(cal: Date, number: Int) {
-        mIClick?.onClick(cal, number)
+    override fun onEventOccurred(cal: Date, dayOfWeek: String, number: Int) {
+        mIClick?.onClick(cal, dayOfWeek, number)
     }
 
     fun setMyListener(mClickListener: IOnClick?) {
@@ -75,6 +75,7 @@ data class Places(
     var yAxis: Int,
     var number: Int,
     var isWeekend: Boolean,
+    var dayOfWeek: String,
     var clicked: Boolean,
     var myPaint: Paint
 

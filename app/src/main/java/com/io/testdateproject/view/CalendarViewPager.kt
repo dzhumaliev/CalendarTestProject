@@ -2,31 +2,28 @@ package com.io.testdateproject.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import java.util.*
 
 open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
-    ViewPager(context, attrs) {
+    ViewPager(context, attrs), IOnClick {
 
     var onCalendarChangeListener: ((Calendar) -> Unit)? = null
-    private var onDateChangeListener: OnDateChangeListener? = null
+    var onTestClick: ((Date, Int) -> Any)? = null
 
     override fun setAdapter(adapter: PagerAdapter?) {
         super.setAdapter(adapter)
+
         if (adapter is CalendarPagerAdapter) {
             this.clearOnPageChangeListeners()
 
+            adapter.setMyListener(this)
 
             offscreenPageLimit = 0
             setCurrentItem(CalendarPagerAdapter.MAX_VALUE / 2, false)
             this.addOnPageChangeListener(pageChangeListener)
         }
-    }
-
-    fun setOnDateChangeListener(onDateChangeListener: OnDateChangeListener) {
-        this.onDateChangeListener = onDateChangeListener
     }
 
     private val pageChangeListener = object : OnPageChangeListener {
@@ -42,5 +39,9 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
             val calendar = (adapter as? CalendarPagerAdapter)?.getCalendar(position) ?: return
             onCalendarChangeListener?.invoke(calendar)
         }
+    }
+
+    override fun onClick(cal: Date, number: Int) {
+        onTestClick?.invoke(cal, number)
     }
 }

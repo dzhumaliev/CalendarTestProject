@@ -2,22 +2,22 @@ package com.io.testdateproject
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.format.DateUtils
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.io.testdateproject.databinding.LayoutCustomDialogBinding
 import com.io.testdateproject.view.CalendarPagerAdapter
-import com.io.testdateproject.view.OnDateChangeListener
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 class CustomDatePickerDialog @JvmOverloads constructor(
     private val fragmentActivity: FragmentActivity
-) : AlertDialog(fragmentActivity), OnDateChangeListener {
+
+) : AlertDialog(fragmentActivity) {
 
     private lateinit var binding: LayoutCustomDialogBinding
 
     private var calendar: Calendar = Calendar.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,50 +26,56 @@ class CustomDatePickerDialog @JvmOverloads constructor(
 
         setContentView(binding.root)
 
-        val monthName = DateUtils.formatDateTime(
-            fragmentActivity, calendar.timeInMillis,
-            DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_MONTH_DAY
-        )
-
         setDateHeader(calendar)
+
+        binding.tvMonthYear.text =
+            SimpleDateFormat("MMMM yyyy", Locale.GERMAN).format(calendar.time)
+        binding.tvWeekDay.text = SimpleDateFormat("EEEE, dd", Locale.GERMAN).format(calendar.time)
+
 
         binding.monthsViewPager.apply {
             adapter = CalendarPagerAdapter(fragmentActivity, calendar)
-
-            Log.e("monthName", monthName.toString())
-
             onCalendarChangeListener = {
                 setDateHeader(it)
             }
+//            onTestClick = {
+//                setTimeText(it)
+//            }
+
+
+            onTestClick = { cal: Date, day: Int ->
+                setTimeText(cal, day)
+            }
+
 
             binding.btnPrev.setOnClickListener {
                 currentItem -= 1
             }
-
             binding.btnNext.setOnClickListener {
                 currentItem += 1
             }
-
-            setOnDateChangeListener(this@CustomDatePickerDialog)
-
         }
 
         binding.btnAccept.setOnClickListener {
-            this.cancel()
+            cancel()
         }
         binding.btnDecline.setOnClickListener {
-            this.cancel()
+            cancel()
         }
     }
 
     private fun setDateHeader(calendar: Calendar) {
-        binding.tvDate.text = DateUtils.formatDateTime(
-            fragmentActivity, calendar.timeInMillis,
-            DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_NO_MONTH_DAY
-        )
+        binding.tvDate.text = getDate(calendar.time, "MMMM, yyyy")
     }
 
-    override fun onChangeDate(day: Int) {
-        Log.e("ddaaaaa", day.toString())
+    private fun getDate(dateStr: Date, format: String): String {
+        return SimpleDateFormat(format, Locale.GERMAN).format(dateStr)
+    }
+
+    private fun setTimeText(cal: Date, day: Int) {
+        binding.tvMonthYear.text = SimpleDateFormat("MMMM yyyy", Locale.GERMAN).format(cal)
+//        binding.tvWeekDay.text = SimpleDateFormat("EEEE, ", Locale.GERMAN).format(cal) + day
+
+
     }
 }

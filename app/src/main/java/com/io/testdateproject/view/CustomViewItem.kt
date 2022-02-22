@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -21,11 +20,10 @@ class CustomViewItem @JvmOverloads constructor(
     private val cal: Calendar
 ) : View(context, attrs, defStyleAttr) {
 
-    private var onDateChangeListener: OnDateChangeListener? = null
-
     private var widthSize = 0
     private var heightSize = 0
     private val listDays = arrayListOf<Places>()
+    private var mEventListener: IMyEventListener? = null
 
     private val _paintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         isAntiAlias = true
@@ -33,7 +31,6 @@ class CustomViewItem @JvmOverloads constructor(
         color = ContextCompat.getColor(context, R.color.black_434343)
         textSize = 24f
         textAlign = Paint.Align.CENTER
-
     }
 
     private val _paintWdText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -94,6 +91,9 @@ class CustomViewItem @JvmOverloads constructor(
         var yStep = 0
 
         for (i in 1..cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+
+            //sdf
+
             cal.set(Calendar.DAY_OF_MONTH, i)
             when (cal.get(Calendar.DAY_OF_WEEK)) {
                 Calendar.MONDAY -> {
@@ -186,7 +186,6 @@ class CustomViewItem @JvmOverloads constructor(
 
         listOfPlaces.forEach {
 
-
             if (it.clicked) {
                 drawCircle(
                     it.xAxis.toFloat(),
@@ -204,7 +203,6 @@ class CustomViewItem @JvmOverloads constructor(
                     )
                 }
 
-                Log.e("it.number", it.number.toString())
             } else {
                 drawText(
                     it.number.toString(),
@@ -235,9 +233,10 @@ class CustomViewItem @JvmOverloads constructor(
                             if (xIt == event.x.toInt() && yIt == event.y.toInt()) {
 
                                 it.clicked = true
+
+                                changeEvent(cal.time, it.number)
                                 invalidate()
 
-                                onDateChangeListener?.onChangeDate(it.number)
                             }
                         }
                     }
@@ -255,6 +254,15 @@ class CustomViewItem @JvmOverloads constructor(
             MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY)
         val finalMeasureSpecH =
             MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY)
+
         super.onMeasure(finalMeasureSpecW, finalMeasureSpecH)
+    }
+
+    fun setEventListener(mEventListener: IMyEventListener?) {
+        this.mEventListener = mEventListener
+    }
+
+    private fun changeEvent(cal: Date, number: Int) {
+        mEventListener?.onEventOccurred(cal, number)
     }
 }

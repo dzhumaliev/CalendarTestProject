@@ -2,7 +2,6 @@ package com.io.testdateproject.view
 
 import android.content.Context
 import android.graphics.Paint
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
@@ -12,11 +11,13 @@ import java.util.*
 open class CalendarPagerAdapter(
     private val context: Context,
     private val baseCalendar: Calendar
-) : PagerAdapter(), OnDateChangeListener {
+) : PagerAdapter(), IMyEventListener {
 
     companion object {
         const val MAX_VALUE = 500
     }
+
+    private var mIClick: IOnClick? = null
 
     override fun getCount(): Int = MAX_VALUE
 
@@ -26,9 +27,11 @@ open class CalendarPagerAdapter(
         }
 
         val view = CustomViewItem(
-            context,
+            context = context,
             cal = calendar
         )
+
+        view.setEventListener(this)
 
         container.addView(
             view,
@@ -52,26 +55,19 @@ open class CalendarPagerAdapter(
     override fun isViewFromObject(view: View, `object`: Any): Boolean = (view == `object`)
 
     fun getCalendar(position: Int): Calendar {
+
         return (baseCalendar.clone() as Calendar).apply {
             add(Calendar.MONTH, position - MAX_VALUE / 2)
         }
     }
 
-    override fun onChangeDate(day: Int) {
-        Log.e("dd", day.toString())
+    override fun onEventOccurred(cal: Date, number: Int) {
+        mIClick?.onClick(cal, number)
     }
 
-}
-
-interface OnDateChangeListener {
-
-    fun onChangeDate(
-        day: Int
-//        changedYear: Int,
-//        changedMonth: Int,
-//        changedDayOfMonth: Int,
-//        selectedDayName: String
-    )
+    fun setMyListener(mClickListener: IOnClick?) {
+        this.mIClick = mClickListener
+    }
 }
 
 data class Places(

@@ -124,7 +124,7 @@
     </LinearLayout>
 
 
-    <com.io.testdateproject.view.CalendarViewPager
+    <com.io.testdateproject.adapter.CalendarViewPager
         android:id="@+id/months_view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"

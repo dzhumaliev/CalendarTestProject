@@ -1,9 +1,10 @@
-package com.io.testdateproject.view
+package com.io.testdateproject.adapter
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.io.testdateproject.interfaces.IOnClick
 import java.util.*
 
 open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
@@ -41,7 +42,7 @@ open class CalendarViewPager(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    override fun onClick(cal: Date,dayOfWeek: String, number: Int) {
+    override fun onClick(cal: Date, dayOfWeek: String, number: Int) {
         onTestClick?.invoke(cal, dayOfWeek, number)
     }
 }

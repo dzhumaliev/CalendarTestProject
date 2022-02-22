@@ -1,10 +1,13 @@
-package com.io.testdateproject.view
+package com.io.testdateproject.adapter
 
 import android.content.Context
 import android.graphics.Paint
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
+import com.io.testdateproject.interfaces.IOnClick
+import com.io.testdateproject.view.CustomViewItem
+import com.io.testdateproject.interfaces.IMyEventListener
 import java.util.*
 
 

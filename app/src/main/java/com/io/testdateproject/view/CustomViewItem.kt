@@ -10,6 +10,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.io.testdateproject.R
+import com.io.testdateproject.adapter.Places
+import com.io.testdateproject.interfaces.IMyEventListener
 import java.util.*
 
 
@@ -87,11 +89,8 @@ class CustomViewItem @JvmOverloads constructor(
         xAxes: ArrayList<Int>,
         yAxes: ArrayList<Int>
     ) {
-
         var yStep = 0
-
         for (i in 1..cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-
             cal.set(Calendar.DAY_OF_MONTH, i)
             when (cal.get(Calendar.DAY_OF_WEEK)) {
                 Calendar.MONDAY -> {
@@ -99,9 +98,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[0],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = false,
-                            dayOfWeek = "Montag",
+                            dayOfWeek = MONDAY,
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -112,9 +111,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[1],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = false,
-                            dayOfWeek = "Dienstag",
+                            dayOfWeek = TUESDAY,
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -125,9 +124,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[2],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = false,
-                            dayOfWeek = "Mittwoch",
+                            dayOfWeek = WEDNESDAY,
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -138,9 +137,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[3],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = false,
-                            dayOfWeek = "Donnerstag",
+                            dayOfWeek = THURSDAY,
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -151,9 +150,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[4],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = false,
-                            dayOfWeek = "Freitag",
+                            dayOfWeek = FRIDAY,
                             clicked = false,
                             myPaint = _paintText
                         )
@@ -164,9 +163,9 @@ class CustomViewItem @JvmOverloads constructor(
                         Places(
                             xAxis = xAxes[5],
                             yAxis = yAxes[yStep],
-                            i,
+                            number = i,
                             isWeekend = true,
-                            dayOfWeek = "Samstag",
+                            dayOfWeek = SATURDAY,
                             clicked = false,
                             myPaint = _paintWdText
                         )
@@ -175,11 +174,11 @@ class CustomViewItem @JvmOverloads constructor(
                 Calendar.SUNDAY -> {
                     listOfPlaces.add(
                         Places(
-                            xAxes[6],
-                            yAxes[yStep],
-                            i,
+                            xAxis = xAxes[6],
+                            yAxis = yAxes[yStep],
+                            number = i,
                             isWeekend = true,
-                            dayOfWeek = "Sonntag",
+                            dayOfWeek = SUNDAY,
                             clicked = false,
                             myPaint = _paintWdText
                         )
@@ -222,7 +221,6 @@ class CustomViewItem @JvmOverloads constructor(
                     25f,
                     _paintTranspBack
                 )
-
             }
         }
     }
@@ -239,10 +237,8 @@ class CustomViewItem @JvmOverloads constructor(
 
                                 it.clicked = true
 
-
                                 changeEvent(cal.time, it.dayOfWeek, it.number)
                                 invalidate()
-
                             }
                         }
                     }
@@ -271,4 +267,15 @@ class CustomViewItem @JvmOverloads constructor(
     private fun changeEvent(cal: Date, dayOfWeek: String, number: Int) {
         mEventListener?.onEventOccurred(cal, dayOfWeek, number)
     }
+
+    companion object {
+        const val MONDAY = "Montag"
+        const val TUESDAY = "Dienstag"
+        const val WEDNESDAY = "Mittwoch"
+        const val THURSDAY = "Donnerstag"
+        const val FRIDAY = "Freitag"
+        const val SATURDAY = "Samstag"
+        const val SUNDAY = "Sonntag"
+    }
+
 }
